@@ -13,6 +13,7 @@
     <!-- ===== Bootstrap CSS ===== -->
     <link href="{{asset('backend/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- ===== Plugin CSS ===== -->
+    <link rel="stylesheet" href="{{asset('backend/plugins/components/dropify/dist/css/dropify.min.css')}}">
     <link href="{{asset('backend/plugins/components/chartist-js/dist/chartist.min.css')}}" rel="stylesheet">
     <link href="{{asset('backend/plugins/components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css')}}" rel="stylesheet">
     <!-- ===== Animation CSS ===== -->
@@ -27,16 +28,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- ===== font awesome CSS ===== -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-
-    <!-- <link href="{{asset('backend/plugins/components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('backend/plugins/components/custom-select/custom-select.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('backend/plugins/components/switchery/dist/switchery.min.css')}}" rel="stylesheet" />
+    <!-- Tags Input Stylesheet -->
+    <link href="tagsinput.css" rel="stylesheet" type="text/css">
     <link href="{{asset('backend/plugins/components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css')}}" rel="stylesheet" />
-    <link href="{{asset('backend/plugins/components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css')}}" rel="stylesheet" /> -->
 
     <!-- ===== dropdown menu product add category,brand ===== -->
 
     <link href="{{asset('backend/plugins/components/bootstrap-select/bootstrap-select.min.css')}}" rel="stylesheet" />
+
 
 
 </head>
@@ -86,15 +85,20 @@
     <script src="{{asset('backend/js/sidebarmenu.js')}}"></script>
     <!-- ===== Custom JavaScript ===== -->
     <script src="{{asset('backend/js/custom.js')}}"></script>
-    <!-- ===== Plugin JS ===== -->
 
-    <!-- <script src="{{asset('backend/plugins/components/switchery/dist/switchery.min.js')}}"></script>
-    <script src="{{asset('backend/plugins/components/custom-select/custom-select.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('backend/js/jasny-bootstrap.js')}}"></script>
+
+
+    <!-- Tags Input JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
     <script src="{{asset('backend/plugins/components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js')}}"></script>
-    <script src="{{asset('backend/plugins/components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js')}}" type="text/javascript"></script> -->
+    <script src="tagsinput.js"></script>
+    <!-- ===== Plugin JS ===== -->
 
     <!-- ===== dropdown menu product add category,brand ===== -->
     <script src="{{asset('backend/plugins/components/bootstrap-select/bootstrap-select.min.js')}}" type="text/javascript"></script>
+
 
 
     <script src="{{asset('backend/plugins/components/chartist-js/dist/chartist.min.js')}}"></script>
@@ -123,8 +127,49 @@
     <!-- ===== Toastr JS ===== -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <!-- jQuery file upload -->
+    <script src="{{asset('backend/plugins/components/dropify/dist/js/dropify.min.js')}}"></script>
 
-
+    <!-- CK Editor -->
+    <script src="{{asset('backend/ck//ckeditor/ckeditor.js')}}"></script>
+    <script src="{{asset('backend/ck/bootstrap3-wysihtml5.all.js')}}"></script>
+    <script src="{{asset('backend/ck/editor.js')}}"></script>
+    <script>
+        $(function() {
+            // Basic
+            $('.dropify').dropify();
+            // Translated
+            $('.dropify-fr').dropify({
+                messages: {
+                    default: 'Glissez-déposez un fichier ici ou cliquez',
+                    replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
+                    remove: 'Supprimer',
+                    error: 'Désolé, le fichier trop volumineux'
+                }
+            });
+            // Used events
+            var drEvent = $('#input-file-events').dropify();
+            drEvent.on('dropify.beforeClear', function(event, element) {
+                return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+            });
+            drEvent.on('dropify.afterClear', function(event, element) {
+                alert('File deleted');
+            });
+            drEvent.on('dropify.errors', function(event, element) {
+                console.log('Has Errors');
+            });
+            var drDestroy = $('#input-file-to-destroy').dropify();
+            drDestroy = drDestroy.data('dropify')
+            $('#toggleDropify').on('click', function(e) {
+                e.preventDefault();
+                if (drDestroy.isDropified()) {
+                    drDestroy.destroy();
+                } else {
+                    drDestroy.init();
+                }
+            })
+        });
+    </script>
     <script>
         @if(Session::has('message'))
         var type = "{{Session::get('alert-type', 'info')}}"
