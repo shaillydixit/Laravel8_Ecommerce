@@ -58,6 +58,8 @@ Route::get('all/subsubcategory', [SubSubCategoryController::class, 'AllSubSubCat
 
 Route::get('/category/subcategory/ajax/{category_id}', [SubSubCategoryController::class, 'GetSubCategory']);
 
+Route::get('/category/subsubcategory/ajax/{subcategory_id}', [SubSubCategoryController::class, 'GetSubSubCategory']);
+
 Route::post('store/subsubcategory', [SubSubCategoryController::class, 'StoreSubSubCategory'])->name('store.subsubcategory');
 
 Route::get('edit/subsubcategory/{id}', [SubSubCategoryController::class, 'EditSubSubCategory'])->name('edit.subsubcategory');
@@ -68,3 +70,10 @@ Route::get('delete/subsubcategory/{id}', [SubSubCategoryController::class, 'Dele
 
 
 Route::get('add/product', [ProductController::class, 'AddProduct'])->name('add.product');
+
+Route::post('store/product', [ProductController::class, 'StoreProduct'])->name('store.product');
+
+Route::get('manage/product', [ProductController::class, 'ManageProduct'])->name('manage.product');
+
+
+Route::get('/product/category/brand/ajax/{category_id}', [ProductController::class, 'GetBrand']);
