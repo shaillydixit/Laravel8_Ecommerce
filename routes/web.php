@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\BrandController;
@@ -17,8 +18,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('admin.index');
+Route::group(['prefix' => 'admin', 'middleware' => ['admin:admin']], function () {
+    Route::get('/login', [AdminController::class, 'loginForm']);
+    Route::post('/login', [AdminController::class, 'store'])->name('admin.lgoin');
+});
+
+Route::middleware(['auth:sanctum,admin', 'verified'])->get('admin/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
+
+Route::middleware(['auth:sanctum,web', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
 })->name('dashboard');
 
 Route::get('all/category', [CategoryController::class, 'AllCategory'])->name('all.category');
