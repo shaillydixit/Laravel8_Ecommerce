@@ -73,7 +73,12 @@ Route::get('add/product', [ProductController::class, 'AddProduct'])->name('add.p
 
 Route::post('store/product', [ProductController::class, 'StoreProduct'])->name('store.product');
 
+Route::get('/product/category/brand/ajax/{category_id}', [ProductController::class, 'GetBrand']);
+
 Route::get('manage/product', [ProductController::class, 'ManageProduct'])->name('manage.product');
 
+Route::get('edit/product/{id}', [ProductController::class, 'EditProduct'])->name('edit.product');
 
-Route::get('/product/category/brand/ajax/{category_id}', [ProductController::class, 'GetBrand']);
+Route::get('update/product/{id}', [ProductController::class, 'UpdateProduct'])->name('update.product');
+
+Route::get('delete/product/{id}', [ProductController::class, 'DeleteProduct'])->name('delete.product');

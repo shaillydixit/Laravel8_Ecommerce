@@ -82,6 +82,25 @@ class ProductController extends Controller
 
     public function ManageProduct()
     {
-        return view('backend.product.manage_product');
+        $products = Product::latest()->get();
+        return view('backend.product.manage_product', compact('products'));
+    }
+
+    public function EditProduct($id)
+    {
+        $multi_image = MultiImage::where('product_id', $id)->get();
+        $categories = Category::latest()->get();
+        $brands = Brand::latest()->get();
+        $subcategories = SubCategory::latest()->get();
+        $subsubcategories = SubSubCategory::latest()->get();
+        $products = Product::findOrFail($id);
+        return view('backend.product.edit_product', compact(
+            'multi_image',
+            'categories',
+            'brands',
+            'subcategories',
+            'subsubcategories',
+            'products'
+        ));
     }
 }
